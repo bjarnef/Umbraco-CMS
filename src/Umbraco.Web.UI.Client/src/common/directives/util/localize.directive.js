@@ -3,12 +3,35 @@ angular.module("umbraco.directives")
     return {
         restrict: 'E',
         scope:{
-            key: '@'
+            key: '@',
+            params: '='
         },
         replace: true,
         link: function (scope, element, attrs) {
             var key = scope.key;
-            localizationService.localize(key).then(function(value){
+            //var params = scope.params || [];
+
+            //for (i = 0; i < scope.params.length; i++) {
+            //    console.log(scope.params[i]);
+            //    params.push(scope.params[i]);
+            //}
+            //console.log(scope.params);
+
+            //function getParams() {
+            //    var array = [];
+            //    angular.forEach(scope.params, function (param) {
+            //        console.log(param);
+            //        array.push(param);
+            //    });
+            //    return array;
+            //};
+
+            var params = scope.$eval(scope.params);
+            console.log(params);
+
+            localizationService.localize(key, params).then(function (value) {
+                console.log(value);
+                console.log(params);
                 element.html(value);
             });
         }
