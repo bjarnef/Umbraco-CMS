@@ -1,3 +1,15 @@
-﻿<textarea ng-model="model.value" id="{{model.alias}}" name="textarea" rows="10" class="umb-editor umb-textarea textstring" val-server="value" ng-required="model.validation.mandatory"></textarea>
-<span class="help-inline" val-msg-for="textarea" val-toggle-msg="required">Required</span>
-<span class="help-inline" val-msg-for="textarea" val-toggle-msg="valServer"></span>
+﻿<div ng-controller="Umbraco.PropertyEditors.TextboxController" class="umb-editor umb-textarea">
+    <textarea name="textarea" ng-model="model.value" id="{{model.alias}}"
+              rows="10" class="umb-editor umb-textstring textstring"
+              val-server="value"
+              ng-required="model.validation.mandatory"
+              ng-change="update()">
+    </textarea>
+
+    <br />
+    <small ng-show="model.config.showCharsCount" ng-class="model.className">Chars remaining: {{model.remainingChars + '/' + model.maxChars}}</small>
+    <small ng-show="model.config.showWordCount">Total words: <span ng-bind="wordCount"></span></small>
+
+    <span class="help-inline" val-msg-for="textarea" val-toggle-msg="required">Required</span>
+    <span class="help-inline" val-msg-for="textarea" val-toggle-msg="valServer"></span>
+</div>

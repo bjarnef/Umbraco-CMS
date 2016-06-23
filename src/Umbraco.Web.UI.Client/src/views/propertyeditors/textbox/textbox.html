@@ -1,9 +1,15 @@
-﻿<div>
+﻿<div ng-controller="Umbraco.PropertyEditors.TextboxController" class="umb-editor umb-textbox">
     <input type="text" name="textbox" ng-model="model.value" id="{{model.alias}}"
            class="umb-editor umb-textstring textstring"
            val-server="value"
            ng-required="model.validation.mandatory"
-           ng-trim="false" />
+           ng-trim="false"
+           ng-change="update()" />
+
+    <br />
+    <small ng-show="model.config.showCharsCount" ng-class="model.className">Chars remaining: {{model.remainingChars + '/' + model.maxChars}}</small>
+    <small ng-show="model.config.showWordCount">Total words: <span ng-bind="wordCount"></span></small>
+
     <span class="help-inline" val-msg-for="textbox" val-toggle-msg="valServer"></span>
     <span class="help-inline" val-msg-for="textbox" val-toggle-msg="required">Required</span>
 </div>
