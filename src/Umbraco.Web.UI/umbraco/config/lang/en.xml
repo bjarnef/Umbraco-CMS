@@ -491,6 +491,9 @@
     <key alias="current">current</key>
     <key alias="embed">Embed</key>
     <key alias="selected">selected</key>
+    <key alias="characters">Characters</key>
+    <key alias="charactersRemaining">Characters remaining</key>
+    <key alias="totalWords">Total words</key>
   </area>
 
   <area alias="colors">

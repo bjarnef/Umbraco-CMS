@@ -774,7 +774,7 @@ ul.color-picker li a  {
 // Textbox and textarea
 // --------------------------------------------------
 .umb-textbox small, .umb-textarea small { padding-left: 3px; padding-right: 3px;
-    &:not(:first-of-type) {
+    &:not([style*="display:none"]):not([style*="display: none"]):not(:first-of-type) {
         border-left: 1px solid #ccc;
     }
 }

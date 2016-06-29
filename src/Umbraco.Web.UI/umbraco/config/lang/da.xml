@@ -434,6 +434,9 @@
     <key alias="current">nuværende</key>
     <key alias="embed">Indlejring</key>
     <key alias="selected">valgt</key>
+    <key alias="characters">Karakterer</key>
+    <key alias="charactersRemaining">Karakterer tilbage</key>
+    <key alias="totalWords">Antal ord</key>
   </area>
 
   <area alias="colors">

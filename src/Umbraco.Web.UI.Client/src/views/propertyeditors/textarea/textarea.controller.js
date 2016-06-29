@@ -1,5 +1,5 @@
 ﻿angular.module("umbraco")
-	.controller("Umbraco.PropertyEditors.TextboxController", function ($scope, localizationService) {
+	.controller("Umbraco.PropertyEditors.TextareaController", function ($scope, localizationService) {
 
 		// set default max characters
 	    $scope.model.maxChars = $scope.model.config.maxChars || 0;
@@ -20,7 +20,7 @@
 	        $scope.model.config.showWordCount = $scope.model.config.showWordCount === "1";
 	    }
 
-	    // only set limit when maxChars > 0 and chars count is enabled
+        // only set limit when maxChars > 0 and chars count is enabled
 	    $scope.model.config.hasCharLimit = $scope.model.maxChars > 0 && $scope.model.config.showCharsCount;
 
 		// calculate a low and medium range so we can set the CSS appropriately
@@ -40,11 +40,13 @@
 		$scope.getCharsText = function (remainingChars, maxChars) {
 		    if ($scope.model.config.hasCharLimit) {
 		        localizationService.localize("general_charactersRemaining").then(function (value) {
+		            console.log(value + ": " + remainingChars + '/' + maxChars);
 		            $scope.model.charsText = value + ": " + remainingChars + '/' + maxChars;
 		        });
 		    }
 		    else {
 		        localizationService.localize("general_characters").then(function (value) {
+		            console.log(value + ": " + remainingChars);
 		            $scope.model.charsText = value + ": " + remainingChars;
 		        });
 		    }
@@ -72,7 +74,8 @@
 			else if ($scope.model.remainingChars <= med)
 				$scope.model.className = "text-warning";
 			else
-				$scope.model.className = "text-success";
+			    $scope.model.className = "text-success";
+
 		};
 
 		$scope.update();

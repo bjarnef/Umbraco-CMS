@@ -7,8 +7,8 @@
            ng-change="update()" />
 
     <br />
-    <small ng-show="model.config.showCharsCount" ng-class="model.className">Chars remaining: {{model.remainingChars + '/' + model.maxChars}}</small>
-    <small ng-show="model.config.showWordCount">Total words: <span ng-bind="wordCount"></span></small>
+    <small ng-show="model.config.showCharsCount" ng-class="model.className">{{model.charsText}}</small>
+    <small ng-show="model.config.showWordCount"><localize key="general_totalWords">Total words</localize>: <span ng-bind="wordCount"></span></small>
 
     <span class="help-inline" val-msg-for="textbox" val-toggle-msg="valServer"></span>
     <span class="help-inline" val-msg-for="textbox" val-toggle-msg="required">Required</span>

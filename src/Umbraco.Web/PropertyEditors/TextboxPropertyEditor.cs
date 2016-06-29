@@ -25,6 +25,9 @@ namespace Umbraco.Web.PropertyEditors
 
             [PreValueField("showCharsCount", "Show characters count", "boolean", Description = "If maximum characters is set, then count of characters will always be visible")]
             public bool ShowCharsCount { get; set; }
+
+            [PreValueField("showWordCount", "Show word count", "boolean", Description = "Should word count be visible?")]
+            public bool ShowWordCount { get; set; }
         }
     }
 }
