@@ -1,0 +1,41 @@
+﻿<div style="min-height: 400px;" class="umb-file-avatar" ng-controller="Umbraco.Overlays.UserAvatarController as vm">
+
+    <umb-load-indicator ng-if="vm.loading">
+    </umb-load-indicator>
+
+    <div ng-if="!imageSrc && !vm.loading">
+        <div class="dropzone"
+             ngf-drop
+             ngf-select
+             ng-model="filesHolder"
+             ngf-change="vm.handleFiles($files, $event)"
+             ngf-multiple="false"
+             ngf-drag-over-class="'drag-over'"
+             ngf-allow-dir="false"
+             ngf-pattern="{{ model.acceptedFileTypes }}"
+             ngf-max-size="{{ model.maxFileSize }}">
+
+            <div class="content flex" style="align-items: center; justify-content: center;margin: auto; width: 300px; height: 300px; border-radius: 50%; border: 3px dashed #ccc;">
+                <span style="font-size: 16px;color:#ccc;">Select photo</span>
+            </div>
+        </div>
+
+        <umb-progress-bar style="max-width: 300px; margin: 15px auto;"
+                          ng-if="vm.avatarFile.uploadStatus === 'uploading'"
+                          progress="{{ vm.avatarFile.uploadProgress }}"
+                          size="m">
+        </umb-progress-bar>
+
+    </div>
+
+    <div ng-if="vm.currentCrop && imageSrc && !vm.loading">
+        <umb-image-crop height="{{vm.currentCrop.height}}"
+                        width="{{vm.currentCrop.width}}"
+                        crop="vm.currentCrop.coordinates"
+                        center="vm.focalPoint"
+                        max-size="300"
+                        src="imageSrc">
+        </umb-image-crop>
+    </div>
+
+</div>
