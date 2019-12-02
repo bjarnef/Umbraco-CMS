@@ -1,7 +1,7 @@
 (function () {
     "use strict";
 
-    function UserEditController($scope, eventsService, $q, $location, $routeParams, formHelper, usersResource, userService, contentEditingHelper, localizationService, mediaHelper, Upload, umbRequestHelper, usersHelper, authResource, dateHelper, editorService, overlayService) {
+    function UserEditController($scope, $q, $location, $routeParams, formHelper, usersResource, userService, contentEditingHelper, eventsService, localizationService, mediaHelper, Upload, umbRequestHelper, usersHelper, authResource, dateHelper, editorService, overlayService) {
 
         var vm = this;
 
@@ -413,70 +413,100 @@
             });
         }
 
+        //function changeAvatar(files, event) {
+        //    if (files && files.length > 0) {
+        //        upload(files[0]);
+        //    }
+        //};
+
         function changeAvatar(files, event) {
-            if (files && files.length > 0) {
-                upload(files[0]);
-            }
+
+            const dialog = {
+                view: "views/users/overlays/avatar.html",
+                files: files,
+                acceptedFileTypes: vm.acceptedFileTypes,
+                maxFileSize: vm.maxFileSize,
+                submitButtonLabelKey: "user_changePhoto",
+                submit: function (model) {
+                    console.log("model", model);
+                    //performDelete(model.language);
+                    overlayService.close();
+                },
+                close: function () {
+                    overlayService.close();
+                }
+            };
+
+            localizationService.localize("general_upload").then(value => {
+                dialog.title = value;
+                overlayService.open(dialog);
+            });
+
+            event.preventDefault()
+            event.stopPropagation();
+            //if (files && files.length > 0) {
+            //    upload(files[0]);
+            //}
         };
 
-        function upload(file) {
+        //function upload(file) {
 
-            vm.avatarFile.uploadProgress = 0;
+        //    vm.avatarFile.uploadProgress = 0;
 
-            Upload.upload({
-                url: umbRequestHelper.getApiUrl("userApiBaseUrl", "PostSetAvatar", { id: vm.user.id }),
-                fields: {},
-                file: file
-            }).progress(function (evt) {
+        //    Upload.upload({
+        //        url: umbRequestHelper.getApiUrl("userApiBaseUrl", "PostSetAvatar", { id: vm.user.id }),
+        //        fields: {},
+        //        file: file
+        //    }).progress(function (evt) {
 
-                if (vm.avatarFile.uploadStatus !== "done" && vm.avatarFile.uploadStatus !== "error") {
-                  // set uploading status on file
-                  vm.avatarFile.uploadStatus = "uploading";
+        //        if (vm.avatarFile.uploadStatus !== "done" && vm.avatarFile.uploadStatus !== "error") {
+        //          // set uploading status on file
+        //          vm.avatarFile.uploadStatus = "uploading";
 
-                  // calculate progress in percentage
-                  var progressPercentage = parseInt(100.0 * evt.loaded / evt.total, 10);
+        //          // calculate progress in percentage
+        //          var progressPercentage = parseInt(100.0 * evt.loaded / evt.total, 10);
 
-                  // set percentage property on file
-                  vm.avatarFile.uploadProgress = progressPercentage;
-                }               
+        //          // set percentage property on file
+        //          vm.avatarFile.uploadProgress = progressPercentage;
+        //        }               
 
-            }).success(function (data, status, headers, config) {
+        //    }).success(function (data, status, headers, config) {
 
-                // set done status on file
-                vm.avatarFile.uploadStatus = "done";
-                vm.avatarFile.uploadProgress = 100;
-                vm.user.avatars = data;
+        //        // set done status on file
+        //        vm.avatarFile.uploadStatus = "done";
+        //        vm.avatarFile.uploadProgress = 100;
+        //        vm.user.avatars = data;
 
-            }).error(function (evt, status, headers, config) {
+        //    }).error(function (evt, status, headers, config) {
 
-                // set status done
-                vm.avatarFile.uploadStatus = "error";
+        //        // set status done
+        //        vm.avatarFile.uploadStatus = "error";
 
-                // If file not found, server will return a 404 and display this message
-                if (status === 404) {
-                    vm.avatarFile.serverErrorMessage = "File not found";
-                }
-                else if (status == 400) {
-                    //it's a validation error
-                    vm.avatarFile.serverErrorMessage = evt.message;
-                }
-                else {
-                    //it's an unhandled error
-                    //if the service returns a detailed error
-                    if (evt.InnerException) {
-                        vm.avatarFile.serverErrorMessage = evt.InnerException.ExceptionMessage;
+        //        // If file not found, server will return a 404 and display this message
+        //        if (status === 404) {
+        //            vm.avatarFile.serverErrorMessage = "File not found";
+        //        }
+        //        else if (status == 400) {
+        //            //it's a validation error
+        //            vm.avatarFile.serverErrorMessage = evt.message;
+        //        }
+        //        else {
+        //            //it's an unhandled error
+        //            //if the service returns a detailed error
+        //            if (evt.InnerException) {
+        //                vm.avatarFile.serverErrorMessage = evt.InnerException.ExceptionMessage;
 
-                        //Check if its the common "too large file" exception
-                        if (evt.InnerException.StackTrace && evt.InnerException.StackTrace.indexOf("ValidateRequestEntityLength") > 0) {
-                            vm.avatarFile.serverErrorMessage = "File too large to upload";
-                        }
+        //                //Check if its the common "too large file" exception
+        //                if (evt.InnerException.StackTrace && evt.InnerException.StackTrace.indexOf("ValidateRequestEntityLength") > 0) {
+        //                    vm.avatarFile.serverErrorMessage = "File too large to upload";
+        //                }
 
-                    } else if (evt.Message) {
-                        vm.avatarFile.serverErrorMessage = evt.Message;
-                    }
-                }
-            });
-        }
+        //            } else if (evt.Message) {
+        //                vm.avatarFile.serverErrorMessage = evt.Message;
+        //            }
+        //        }
+        //    });
+        //}
 
         function makeBreadcrumbs() {
             vm.breadcrumbs = [
