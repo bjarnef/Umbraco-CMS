@@ -459,6 +459,7 @@
     <key alias="openInNewWindow">Opens the linked document in a new window or tab</key>
     <key alias="linkToMedia">Link to media</key>
     <key alias="selectContentStartNode">Select content start node</key>
+    <key alias="selectFolder">Select folder</key>
     <key alias="selectMedia">Select media</key>
     <key alias="selectMediaType">Select media type</key>
     <key alias="selectIcon">Select icon</key>

@@ -1,8 +1,11 @@
-function mediaFolderPickerController($scope, editorService, entityResource) {
-    
-    
+function mediaFolderPickerController($scope, editorService, entityResource, localizationService) {
+
     $scope.folderName = "";
+    $scope.labels = {};
     
+    localizationService.localize("defaultdialogs_selectFolder").then(function (value) {
+        $scope.labels.title = value;
+    });
     
     function retriveFolderData() {
         
@@ -27,6 +30,7 @@ function mediaFolderPickerController($scope, editorService, entityResource) {
     $scope.add = function() {
         var mediaPickerOptions = {
             view: "mediapicker",
+            title: $scope.labels.title,
             multiPicker: false, // We only want to allow you to pick one folder at a given time
             disableFolderSelect: false,
             onlyImages: false,
