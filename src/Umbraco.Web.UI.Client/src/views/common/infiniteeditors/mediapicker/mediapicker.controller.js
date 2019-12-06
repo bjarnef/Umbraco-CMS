@@ -460,16 +460,57 @@ angular.module("umbraco")
                 vm.loading = true;
                 return entityResource.getChildren(id, "Media", vm.searchOptions).then(function (data) {
 
-                    var allowedTypes = dialogOptions.filter ? dialogOptions.filter.split(",") : null;
 
-                    for (var i = 0; i < data.length; i++) {
-                        if (data[i].metaData.MediaPath !== null) {
-                            data[i].thumbnail = mediaHelper.resolveFileFromEntity(data[i], true);
-                            data[i].image = mediaHelper.resolveFileFromEntity(data[i], false);
-                        }
+                    //performFiltering(data);
 
-                        data[i].filtered = allowedTypes && allowedTypes.indexOf(data[i].metaData.ContentTypeAlias) < 0;
+                    //$scope.model.filter = dialogOptions.filter;
+                    $scope.model.filterAdvanced = false;
+
+                    console.log("dialogOptions.filter", dialogOptions.filter);
+
+                    //used advanced filtering
+                    if (angular.isFunction(dialogOptions.filter)) {
+                        $scope.model.filterAdvanced = true;
                     }
+                    else if (angular.isObject(dialogOptions.filter)) {
+                        $scope.model.filterAdvanced = true;
+                    }
+
+                    if ($scope.model.filterAdvanced) {
+
+                        console.log("is func", angular.isFunction($scope.model.filter));
+
+                        //filter either based on a method or an object
+                        var filtered = angular.isFunction($scope.model.filter)
+                            ? _.filter(data, $scope.model.filter)
+                            : _.where(data, $scope.model.filter);
+
+                        console.log("filtered", filtered);
+
+                        data = filtered;
+
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].metaData.MediaPath !== null) {
+                                data[i].thumbnail = mediaHelper.resolveFileFromEntity(data[i], true);
+                                data[i].image = mediaHelper.resolveFileFromEntity(data[i], false);
+                            }
+
+                            data[i].filtered = allowedTypes && allowedTypes.indexOf(data[i].metaData.ContentTypeAlias) < 0;
+                        }
+                    }
+                    else {
+                        var allowedTypes = dialogOptions.filter ? dialogOptions.filter.toLowerCase().replace(/\s/g, '').split(",") : null;
+
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].metaData.MediaPath !== null) {
+                                data[i].thumbnail = mediaHelper.resolveFileFromEntity(data[i], true);
+                                data[i].image = mediaHelper.resolveFileFromEntity(data[i], false);
+                            }
+
+                            data[i].filtered = allowedTypes && allowedTypes.indexOf(data[i].metaData.ContentTypeAlias) < 0;
+                        }
+                    }
+                    
 
                     vm.searchOptions.filter = "";
                     $scope.images = data ? data : [];
@@ -478,6 +519,12 @@ angular.module("umbraco")
                     preSelectMedia();
                     vm.loading = false;
                 });
+            }
+
+            function performFiltering(nodes) {
+                if (!$scope.model.filter) {
+                    return;
+                }
             }
 
             function preSelectMedia() {

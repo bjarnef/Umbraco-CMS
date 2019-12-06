@@ -35,6 +35,12 @@ function mediaFolderPickerController($scope, editorService, entityResource, loca
             disableFolderSelect: false,
             onlyImages: false,
             onlyFolders: true,
+            filter: function (i) {
+                console.log("i", i);
+
+                return i.metaData.ContentTypeAlias.toLowerCase() === "folder";
+            },
+            filterCssClass: "not-allowed",
             submit: function (model) {
                 
                 $scope.model.value = model.selection[0].udi;
