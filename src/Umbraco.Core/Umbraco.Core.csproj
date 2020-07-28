@@ -1607,6 +1607,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Auditing\" />
+    <Folder Include="Migrations\Upgrade\V_8_8_0\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
