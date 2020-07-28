@@ -8,8 +8,11 @@ namespace Umbraco.Web.PropertyEditors
     /// </summary>
     public class MediaPickerConfiguration : IIgnoreUserStartNodesConfig
     {
-        [ConfigurationField("multiPicker", "Pick multiple items", "boolean")]
-        public bool Multiple { get; set; }
+        [ConfigurationField("minNumber", "Minimum number of items", "number")]
+        public int MinNumber { get; set; }
+
+        [ConfigurationField("maxNumber", "Maximum number of items", "number")]
+        public int MaxNumber { get; set; }
 
         [ConfigurationField("onlyImages", "Pick only images", "boolean", Description = "Only let the editor choose images from media.")]
         public bool OnlyImages { get; set; }

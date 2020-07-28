@@ -20,13 +20,14 @@ namespace Umbraco.Web.PropertyEditors
                 .Config = new Dictionary<string, object> { { "idType", "udi" } };
         }
 
+        /// <inheritdoc />
         public override IDictionary<string, object> ToValueEditor(object configuration)
         {
             // get the configuration fields
             var d = base.ToValueEditor(configuration);
 
             // add extra fields
-            // not part of ContentPickerConfiguration but used to configure the UI editor
+            // not part of MediaPickerConfigurationEditor but used to configure the UI editor
             d["idType"] = "udi";
 
             return d;

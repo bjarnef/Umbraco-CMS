@@ -48,7 +48,7 @@ namespace Umbraco.Web.PropertyEditors.ValueConverters
         private bool IsMultipleDataType(PublishedDataType dataType)
         {
             var config = ConfigurationEditor.ConfigurationAs<MediaPickerConfiguration>(dataType.Configuration);
-            return config.Multiple;
+            return config.MaxNumber == 1;
         }
 
         public override object ConvertSourceToIntermediate(IPublishedElement owner, IPublishedPropertyType propertyType,
