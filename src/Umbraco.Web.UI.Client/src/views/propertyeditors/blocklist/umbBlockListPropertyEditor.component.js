@@ -365,13 +365,10 @@
         }
 
         vm.showCreateDialog = showCreateDialog;
+
         function showCreateDialog(createIndex, $event) {
             
-            if (vm.blockTypePicker) {
-                return;
-            }
-            
-            if (vm.availableBlockTypes.length === 0) {
+            if (vm.blockTypePicker || vm.availableBlockTypes.length === 0) {
                 return;
             }
 
@@ -466,7 +463,6 @@
 
             // open block picker overlay
             editorService.open(blockPickerModel);
-
         };
 
         var requestCopyAllBlocks = function() {
