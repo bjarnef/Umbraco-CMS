@@ -13,6 +13,8 @@
     background: @brownGrayLight;
     z-index: @zIndexEditor;
     max-width: 100%;
+    -webkit-perspective: 1000;
+	-webkit-backface-visibility: hidden;
 
     &--infiniteMode {
         transform: none;
@@ -20,7 +22,8 @@
         transition: transform 400ms ease-in-out;
 
         &.umb-editor--moveRight {
-            transform: translateX(110%);
+            //transform: translateX(110%);
+            transform: translateX(100%);
         }
     }
 
@@ -51,17 +54,17 @@
 @iterations: 3;
 @step: 60px;
 
-.level-loop (@i) when (@i > 0) {
-    @x: (@i * @step);
-    .umb-editor--level@{i} {
-        transform: translateX(@x);
-    }
+.level-loop (@i, @x: 0) when (@i > 1) {
 
-    .umb-editor--n@{i} {
-        right:@x;
-    }
+  .umb-editor--level@{i} {
+    transform: translateX(@x);
+  }
 
-    .level-loop((@i - 1));
+  .umb-editor--n@{i} {
+    right: @x;
+  }
+
+  .level-loop(@i - 1, (@i * @step));
 }
 
 .level-loop(@iterations);
@@ -72,10 +75,11 @@
     medium 800px,
     large 1600px;
 
-.create-editor-sizes(@iterator:1) when(@iterator <= length(@editorSizes)) {
+.create-editor-sizes(@iterator: 1) when(@iterator <= length(@editorSizes)) {
     .umb-editor {
-        @size: extract(extract(@editorSizes, @iterator), 1);
-        @value: extract(extract(@editorSizes, @iterator), 2);
+        @pair: extract(@editorSizes, @iterator);
+        @size: extract(@pair, 1);
+        @value: extract(@pair, 2);
 
         &--@{size} {
             width: @value;
@@ -88,7 +92,7 @@
         }
     }
 
-    .create-editor-sizes((@iterator + 1));
+    .create-editor-sizes(@iterator + 1);
 }
 
 .create-editor-sizes();
